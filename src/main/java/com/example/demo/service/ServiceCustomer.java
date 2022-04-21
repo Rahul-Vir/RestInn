@@ -7,7 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.example.demo.document.Credential;
 import com.example.demo.document.Customer;
+import com.example.demo.document.Login;
 import com.example.demo.repository.CustomerRepository;
 
 @Service
@@ -51,4 +54,16 @@ public class ServiceCustomer {
 		}
 	}
 	
+	public Customer customerLogin(Credential login) {
+		Optional<Customer> customer = customerRepo.findByEmail(login.getEmail());
+		if (customer.isPresent()) {
+			if (encoder.matches(login.getPassword(), customer.get().getLogin().getPassword())) {
+				return customer.get();
+			} else {
+				return new Customer();
+			}
+		} else {
+			return new Customer();
+		}
+	}
 }

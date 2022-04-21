@@ -1,5 +1,7 @@
 package com.example.demo.document;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Login {
 	
 	private String email;
@@ -8,6 +10,8 @@ public class Login {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Autowired
 	public Login(String email, String password) {
 		super();
 		this.email = email;

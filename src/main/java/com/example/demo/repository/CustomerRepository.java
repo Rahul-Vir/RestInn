@@ -10,5 +10,5 @@ import com.example.demo.document.Customer;
 @Repository
 public interface CustomerRepository extends MongoRepository<Customer, String>{
 
-	
+	public Optional<Customer> findByEmail(String email);
 }

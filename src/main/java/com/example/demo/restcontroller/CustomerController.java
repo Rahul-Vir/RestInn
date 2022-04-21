@@ -33,24 +33,13 @@ public class CustomerController {
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	@PostMapping("/user/login")
-	public <T> T getUser(@RequestBody Credential credential){
-		List<Customer> cus1 = serviceCustomer.getAllCustomers();
+	public ResponseEntity<Customer> loginDetails(@RequestBody Credential login) {
 		
-		cus1.forEach((c) ->{
-			if(c.getLogin().getEmail().equals(credential.getEmail()) && encoder.matches(credential.getPassword(), c.getLogin().getPassword())) {
-				c1 = c;
-				c2 = c;
-				
-			}
-		});
-		
-		if(c1!=null) {
-			
-			c1 = null;
-			return (T) c2;
-			
-		}else {
-			return null; 
+		if(serviceCustomer.customerLogin(login).getEmail() == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		else {
+			return ResponseEntity.of(Optional.of(serviceCustomer.customerLogin(login)));
 		}
 	}
 	
